@@ -2,5 +2,8 @@
   "dependencies": {
     "minimist": "^1.2.0",
     "node-fetch": "^2.2.0"
+  },
+  "devDependencies": {
+    "prettier": "^1.14.2"
   }
 }

@@ -9,9 +9,9 @@ Usage
 ```
 cd my_project
 # list all non-devDependencies @types/ packages available
-node ~/autotypes --no-dev
+node ~/autotypes
 # `yarn add` the same
-node ~/autotypes --no-dev | xargs yarn add
+node ~/autotypes | xargs yarn add
 # `npm install --save` the same
-node ~/autotypes --no-dev | xargs npm install --save
+node ~/autotypes | xargs npm install --save
 ```

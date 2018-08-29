@@ -15,7 +15,12 @@ const progressCallback = (d) => {
 		console.error(`Usage: ${process.argv[1]} <directory-with-package.json>`);
 		process.exit(1);
 	}
-	const packages = (await readPackages(pth)).filter(spec => !spec.name.startsWith('@types'));
+	const devToo = (argv.dev === undefined || argv.dev === true);
+	const packages = (await readPackages(pth)).filter(spec => {
+		if(spec.name.startsWith('@types')) return false;
+		if(spec.type === 'dev' && !devToo) return false;
+		return true;
+	});
 	const results = await findTypes(packages, progressCallback);
 	results.forEach((res) => {
 		if(res.found && !res.isStub) {

@@ -2,6 +2,13 @@ const minimist = require('minimist');
 const readPackages = require('./lib/read-packages');
 const findTypes = require('./lib/find-types-packages');
 
+const progressCallback = (d) => {
+	process.stderr.write(`=> ${d.remaining} packages remaining...`.padEnd(40) + '\r');
+	if(d.remaining === 0) {
+		process.stderr.write('\n');
+	}
+};
+
 (async function (argv) {
 	const pth = argv._[0];
 	if(!pth) {
@@ -9,8 +16,7 @@ const findTypes = require('./lib/find-types-packages');
 		process.exit(1);
 	}
 	const packages = (await readPackages(pth)).filter(spec => !spec.name.startsWith('@types'));
-	console.log(`# Finding @types for ${packages.length} packages...`);
-	const results = await findTypes(packages);
+	const results = await findTypes(packages, progressCallback);
 	results.forEach((res) => {
 		if(res.found && !res.isStub) {
 			console.log(res.name);
